@@ -97,4 +97,90 @@ const getProductById = async (req, res) => {
         });
     }
 };
-module.exports = {createProduct, getProducts, getProductById};
+const updateProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const {
+            name,
+            category,
+            price,
+            quantity,
+            low_stock_threshold
+        } = req.body;
+
+        if (!name || !name.trim()) {
+            return res.status(400).json({
+                message: "Product name is required"
+            });
+        }
+
+        if (!category || !category.trim()) {
+            return res.status(400).json({
+                message: "Category is required"
+            });
+        }
+
+        if (Number(price) <= 0) {
+            return res.status(400).json({
+                message: "Price must be greater than zero"
+            });
+        }
+
+        if (Number(quantity) <= 0) {
+            return res.status(400).json({
+                message: "Quantity must be greater than zero"
+            });
+        }
+
+        const result = await productModel.updateProduct(id, {
+            name: name.trim(),
+            category: category.trim(),
+            price: Number(price),
+            quantity: Number(quantity),
+            low_stock_threshold: Number(low_stock_threshold)
+        });
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                message: "Product not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "Product updated successfully"
+        });
+    } catch (error) {
+        console.error("Update product error:", error);
+
+        res.status(500).json({
+            message: "Internal server error"
+        });
+    }
+};
+const deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const result = await productModel.deleteProduct(id);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                message: "Product not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "Product deleted successfully"
+        });
+    } catch (error) {
+        console.error("Delete product error:", error);
+
+        res.status(500).json({
+            message: "Internal server error"
+        });
+    }
+};
+module.exports = {createProduct, getProducts, getProductById, updateProduct,deleteProduct
+
+};

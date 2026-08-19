@@ -50,8 +50,41 @@ const getProductById = async (id) => {
 
     return products[0];
 };
+const updateProduct = async (id, product) => {
+    const sql = `
+        UPDATE products
+        SET name = ?,
+            category = ?,
+            price = ?,
+            quantity = ?,
+            low_stock_threshold = ?
+        WHERE id = ?
+    `;
+
+    const values = [
+        product.name,
+        product.category,
+        product.price,
+        product.quantity,
+        product.low_stock_threshold,
+        id
+    ];
+
+    const [result] = await db.execute(sql, values);
+
+    return result;
+};
+const deleteProduct = async (id) => {
+    const sql = "DELETE FROM products WHERE id = ?";
+
+    const [result] = await db.execute(sql, [id]);
+
+    return result;
+};
 module.exports = {
     createProduct,
     getProducts,
-    getProductById
+    getProductById,
+    updateProduct,
+    deleteProduct
 };
