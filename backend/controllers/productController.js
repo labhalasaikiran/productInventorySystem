@@ -62,5 +62,18 @@ const createProduct = async (req, res) => {
         });
     }
 };
+const getProducts = async (req, res) => {
+    try {
+        const products = await productModel.getProducts();
 
-module.exports = {createProduct};
+        res.status(200).json(products);
+    } catch (error) {
+        console.error("Get products error:", error);
+
+        res.status(500).json({
+            message: "Internal server error"
+        });
+    }
+};
+
+module.exports = {createProduct, getProducts};

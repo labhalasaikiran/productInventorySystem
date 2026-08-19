@@ -20,7 +20,13 @@ const createProduct = async (product) => {
 
     return result;
 };
+const getProducts = async () => {
+    const sql = "SELECT * FROM products";
+    const [products] = await db.execute(sql);
 
+    return products;
+};
 module.exports = {
-    createProduct
+    createProduct,
+    getProducts
 };
