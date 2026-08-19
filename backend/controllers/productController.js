@@ -64,7 +64,8 @@ const createProduct = async (req, res) => {
 };
 const getProducts = async (req, res) => {
     try {
-        const products = await productModel.getProducts();
+        const { search, category } = req.query;
+        const products = await productModel.getProducts(search, category);
 
         res.status(200).json(products);
     } catch (error) {

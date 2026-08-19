@@ -20,9 +20,26 @@ const createProduct = async (product) => {
 
     return result;
 };
-const getProducts = async () => {
-    const sql = "SELECT * FROM products";
-    const [products] = await db.execute(sql);
+const getProducts = async (search, category) => {
+    let sql = "SELECT * FROM products";
+    const values = [];
+
+    if (search) {
+        sql += " WHERE name LIKE ? OR sku LIKE ?";
+        values.push(`%${search}%`, `%${search}%`);
+    }
+
+    if (category) {
+        if (search) {
+            sql += " AND category = ?";
+        } else {
+            sql += " WHERE category = ?";
+        }
+
+        values.push(category);
+    }
+
+    const [products] = await db.execute(sql, values);
 
     return products;
 };
