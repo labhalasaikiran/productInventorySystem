@@ -43,7 +43,15 @@ const getProducts = async (search, category) => {
 
     return products;
 };
+const getProductById = async (id) => {
+    const sql = "SELECT * FROM products WHERE id = ?";
+
+    const [products] = await db.execute(sql, [id]);
+
+    return products[0];
+};
 module.exports = {
     createProduct,
-    getProducts
+    getProducts,
+    getProductById
 };
