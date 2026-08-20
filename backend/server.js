@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/products", productRoutes);
-app.use("/api/stock", stockRoutes);
+app.use("/api/products", stockRoutes);
 
 app.get("/", (req, res) => {
     res.json({
