@@ -1,14 +1,7 @@
-import { useState } from 'react'
-import './App.css'
-import ProductList from './components/ProductList'
-function App() {
-  const [count, setCount] = useState(0)
+import ProductList from "./components/ProductList";
 
-  return (
-    <>   
-    <ProductList /> 
-    </>
-  )
+function App() {
+    return <ProductList />;
 }
 
-export default App
+export default App;
