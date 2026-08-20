@@ -1,90 +1,198 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-}
-.no-stock {
-    color: red;
-    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f5f7fa;
+    color: #222;
 }
 
-.low-stock {
-    color: orange;
-    font-weight: bold;
-}
-
-.in-stock {
-    color: green;
-    font-weight: bold;
-}
-h1{
-    text-align: center;
-    color: #ebe5e5;
-}
 button {
-    margin: 4px;
+    border: none;
     padding: 8px 12px;
+    margin: 3px;
+    border-radius: 5px;
     cursor: pointer;
+    background-color: #2563eb;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.9;
 }
 
 input,
 select {
-    padding: 8px;
-    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+h2 {
+    margin-top: 0;
 }
 
 .container {
+    max-width: 1400px;
+    margin: 0 auto;
     padding: 30px;
 }
 
 .form-container {
     background-color: white;
     padding: 20px;
-    margin: 20px 0;
+    margin-bottom: 25px;
     border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.form-container form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .form-container input {
-    display: block;
-    width: 300px;
-    margin: 10px 0;
+    flex: 1;
+    min-width: 180px;
 }
 
 .filters {
-    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filters input {
+    width: 300px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     background-color: white;
-}
-
-th,
-td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: left;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 th {
-    background-color: #eee;
+    background-color: #1f2937;
+    color: white;
+    padding: 13px;
+    text-align: left;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+tr:hover {
+    background-color: #f9fafb;
 }
 
 .low-stock {
-    color: red;
+    color: #d97706;
     font-weight: bold;
 }
 
 .in-stock {
-    color: green;
+    color: #15803d;
+    font-weight: bold;
+}
+
+.no-stock {
+    color: #dc2626;
     font-weight: bold;
 }
 
 .error {
-    color: red;
+    color: #dc2626;
+    background-color: #fee2e2;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .success {
-    color: green;
+    color: #15803d;
+    background-color: #dcfce7;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .filters {
+        flex-direction: column;
+    }
+
+    .filters input {
+        width: 100%;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .form-container form {
+        flex-direction: column;
+    }
+
+    .form-container input {
+        width: 100%;
+    }
+}
+.actions {
+    min-width: 420px;
+}
+
+.actions button {
+    border: none;
+    padding: 7px 10px;
+    margin: 3px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: #2563eb;
+}
+
+.delete-button {
+    background-color: #dc2626;
+}
+
+.stock-in-button {
+    background-color: #16a34a;
+}
+
+.stock-out-button {
+    background-color: #ea580c;
+}
+
+.history-button {
+    background-color: #7c3aed;
+}
+
+.actions button:hover {
+    opacity: 0.85;
 }

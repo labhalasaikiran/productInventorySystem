@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import AddProduct from "./AddProduct";
 import EditProduct from "./EditProduct";
@@ -22,6 +22,8 @@ function ProductList() {
     const [transactionProduct, setTransactionProduct] = useState(null);
 
     const [error, setError] = useState("");
+
+    const formRef = useRef(null);
 
     const fetchProducts = async () => {
         try {
@@ -51,6 +53,15 @@ function ProductList() {
         } catch (error) {
             setError(error.message);
         }
+    };
+
+    const scrollToForm = () => {
+        setTimeout(() => {
+            formRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }, 100);
     };
 
     const categories = [
@@ -114,31 +125,35 @@ function ProductList() {
                             <td>₹{product.price}</td>
 
                             <td>
-    {product.quantity === 0 ? (
-        <span className="no-stock">
-            No Stock
-        </span>
-    ) : product.quantity < product.low_stock_threshold ? (
-        <span className="low-stock">
-            Low Stock
-        </span>
-    ) : (
-        <span className="in-stock">
-            In Stock
-        </span>
-    )}
-</td>
+                                {product.quantity === 0 ? (
+                                    <span className="no-stock">
+                                        No Stock
+                                    </span>
+                                ) : product.quantity <
+                                  product.low_stock_threshold ? (
+                                    <span className="low-stock">
+                                        Low Stock
+                                    </span>
+                                ) : (
+                                    <span className="in-stock">
+                                        In Stock
+                                    </span>
+                                )}
+                            </td>
 
-                            <td>
+                            <td className="actions">
                                 <button
-                                    onClick={() =>
-                                        setEditingProduct(product)
-                                    }
+                                    className="edit-button"
+                                    onClick={() => {
+                                        setEditingProduct(product);
+                                        scrollToForm();
+                                    }}
                                 >
                                     Edit
                                 </button>
 
                                 <button
+                                    className="delete-button"
                                     onClick={() =>
                                         handleDelete(product.id)
                                     }
@@ -147,25 +162,31 @@ function ProductList() {
                                 </button>
 
                                 <button
-                                    onClick={() =>
-                                        setStockInProduct(product)
-                                    }
+                                    className="stock-in-button"
+                                    onClick={() => {
+                                        setStockInProduct(product);
+                                        scrollToForm();
+                                    }}
                                 >
                                     Stock In
                                 </button>
 
                                 <button
-                                    onClick={() =>
-                                        setStockOutProduct(product)
-                                    }
+                                    className="stock-out-button"
+                                    onClick={() => {
+                                        setStockOutProduct(product);
+                                        scrollToForm();
+                                    }}
                                 >
                                     Stock Out
                                 </button>
 
                                 <button
-                                    onClick={() =>
-                                        setTransactionProduct(product)
-                                    }
+                                    className="history-button"
+                                    onClick={() => {
+                                        setTransactionProduct(product);
+                                        scrollToForm();
+                                    }}
                                 >
                                     History
                                 </button>
@@ -175,45 +196,47 @@ function ProductList() {
                 </tbody>
             </table>
 
-            {editingProduct && (
-                <EditProduct
-                    product={editingProduct}
-                    onProductUpdated={() => {
-                        setEditingProduct(null);
-                        fetchProducts();
-                    }}
-                    onCancel={() => setEditingProduct(null)}
-                />
-            )}
+            <div ref={formRef}>
+                {editingProduct && (
+                    <EditProduct
+                        product={editingProduct}
+                        onProductUpdated={() => {
+                            setEditingProduct(null);
+                            fetchProducts();
+                        }}
+                        onCancel={() => setEditingProduct(null)}
+                    />
+                )}
 
-            {stockInProduct && (
-                <StockIn
-                    product={stockInProduct}
-                    onStockUpdated={() => {
-                        setStockInProduct(null);
-                        fetchProducts();
-                    }}
-                    onCancel={() => setStockInProduct(null)}
-                />
-            )}
+                {stockInProduct && (
+                    <StockIn
+                        product={stockInProduct}
+                        onStockUpdated={() => {
+                            setStockInProduct(null);
+                            fetchProducts();
+                        }}
+                        onCancel={() => setStockInProduct(null)}
+                    />
+                )}
 
-            {stockOutProduct && (
-                <StockOut
-                    product={stockOutProduct}
-                    onStockUpdated={() => {
-                        setStockOutProduct(null);
-                        fetchProducts();
-                    }}
-                    onCancel={() => setStockOutProduct(null)}
-                />
-            )}
+                {stockOutProduct && (
+                    <StockOut
+                        product={stockOutProduct}
+                        onStockUpdated={() => {
+                            setStockOutProduct(null);
+                            fetchProducts();
+                        }}
+                        onCancel={() => setStockOutProduct(null)}
+                    />
+                )}
 
-            {transactionProduct && (
-                <TransactionHistory
-                    product={transactionProduct}
-                    onClose={() => setTransactionProduct(null)}
-                />
-            )}
+                {transactionProduct && (
+                    <TransactionHistory
+                        product={transactionProduct}
+                        onClose={() => setTransactionProduct(null)}
+                    />
+                )}
+            </div>
         </div>
     );
 }
